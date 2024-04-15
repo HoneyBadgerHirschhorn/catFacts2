@@ -8,6 +8,11 @@ import java.sql.*;
 public class JDBC {
     public JDBC() {
     }
+
+    ResultSet resultSet = null;
+    PreparedStatement statement = null;
+    Connection connection = null;
+
     String username = "root";
     String password = "root";
     String url = "jdbc:mysql://localhost:3306/da_projects";
@@ -16,7 +21,7 @@ public class JDBC {
 
     public void readDB() throws SQLException, IOException, InterruptedException {
         String prep = "SELECT * FROM cat_facts";
-        try (Connection connection = DriverManager.getConnection(url,username,password);
+        try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement(prep);
              ResultSet resultSet = statement.executeQuery(prep)) {
             while (resultSet.next()) {  // Iterate over the result set
@@ -24,25 +29,64 @@ public class JDBC {
                 String fact = resultSet.getString(2);
                 System.out.println(id + ": " + fact);
             }
-            resultSet.close();
-            statement.close();
-            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace(); // or log the exception
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace(); // or log the exception
+                }
+                if (statement != null) {
+                    try {
+                        statement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace(); // or log the exception
+                    }
+                }
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace(); // or log the exception
+                    }
+                }
+            }
         }
     }
 
-    public void writeDB() throws IOException, InterruptedException, SQLException {
+    public void writeDB() throws SQLException {
+        String sql = "Insert into cat_facts (facts) values (?)";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CatFacts facts = new CatFacts();
             String entry = facts.getResult();
-            String sql = "Insert into cat_facts (facts) values (?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, entry);
             statement.executeUpdate();
-            statement.close();
-            connection.close();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace(); // or log the exception
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace(); // or log the exception
+            }
+
         }
     }
 }
+
+
+
 
 
 
