@@ -16,7 +16,6 @@ public class JDBC {
     int port = 3306;
 
     public void readDB() throws SQLException, IOException, InterruptedException {
-
         String prep = "SELECT * FROM cat_facts";
         try (Connection connection = DriverManager.getConnection(url,username,password);
              PreparedStatement statement = connection.prepareStatement(prep);
@@ -31,13 +30,10 @@ public class JDBC {
             statement.close();
             connection.close();
         }
-
     }
 
     public void writeDB() throws IOException, InterruptedException, SQLException {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-
-
             CatFacts facts = new CatFacts();
             String entry = facts.getResult();
             String sql = "Insert into cat_facts (facts) values (?)";
