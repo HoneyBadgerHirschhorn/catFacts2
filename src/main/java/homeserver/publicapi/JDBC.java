@@ -8,7 +8,6 @@ import java.sql.*;
 public class JDBC {
     public JDBC() {
     }
-
     String username = "root";
     String password = "root";
     String url = "jdbc:mysql://localhost:3306/da_projects";
@@ -20,7 +19,6 @@ public class JDBC {
         try (Connection connection = DriverManager.getConnection(url,username,password);
              PreparedStatement statement = connection.prepareStatement(prep);
              ResultSet resultSet = statement.executeQuery(prep)) {
-
             while (resultSet.next()) {  // Iterate over the result set
                 String id = resultSet.getString(1);
                 String fact = resultSet.getString(2);
