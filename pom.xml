@@ -51,9 +51,7 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>6.1.5</version>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -62,5 +60,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
