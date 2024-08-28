@@ -13,8 +13,8 @@ public class JDBC {
     PreparedStatement statement = null;
     Connection connection = null;
 
-    String username = "root";
-    String password = "root";
+    String username = "*****";
+    String password = "*****";
     String url = "jdbc:mysql://localhost:3306/da_projects";
     String tableName = "cat_facts";
     int port = 3306;
